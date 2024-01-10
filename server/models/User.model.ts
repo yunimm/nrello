@@ -42,7 +42,7 @@ userSchema.pre('save', async function (next) {
     this.password = await generateHash(this.password);
 });
 
-userSchema.methods.comparePasswords = async function (passwords: string) {
+userSchema.methods.comparePassword = async function (passwords: string) {
     return await bcrypt.compare(passwords, this.password);
 };
 

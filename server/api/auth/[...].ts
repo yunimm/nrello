@@ -9,6 +9,9 @@ async function getUser(id: string) {
 
 export default NuxtAuthHandler({
     secret: useRuntimeConfig().auth.secret,
+    pages:{
+        signIn: '/auth/signin',
+    },
     providers: [
         //@ts-ignore
         CredentialsProvider.default({
@@ -17,8 +20,8 @@ export default NuxtAuthHandler({
 
             async authorize(credentials: { email: string; password: string }) {
                 //login logic would go
-                const user = await User.findOne({ email: credentials.email });
-
+                const user = await User.findOne({ email: credentials.email }).select("+password");
+                
                 if (!user) {
                     return null;
                 }
@@ -26,6 +29,7 @@ export default NuxtAuthHandler({
                 const isValid = await user.comparePassword(
                     credentials.password,
                 );
+                
 
                 if (!isValid) {
                     return null;
