@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 import type { FormSubmitEvent } from '@nuxt/ui/dist/runtime/types';
-import SigninSchema from '../../schemas/Signin.schema';
+import SigninSchema from '~/schemas/Signin.schema';
 import { z } from 'zod';
 
 const isLoading = ref(false);
@@ -34,39 +34,18 @@ async function handleSignIn(
 }
 </script>
 <template>
-    <div class="grid lg:grid-cols-2 h-screen">
-        <div
-            class="left place-self-center w-full px-8 md:px-16 lg:px-24 xl:px-36 2xl:px-52"
-        >
-            <div class="header text-center mb-6">
-                <div class="flex justify-center">
-                    <Logo />
-                </div>
-                <div class="text-xl font-bold mt-4">Login to your account</div>
-            </div>
-            <UCard class="mt-4">
-                <!-- Form -->
-                <UForm
-                    :state="formState"
-                    :schema="SigninSchema"
-                    @submit="handleSignIn"
-                >
-                    <UFormGroup class="mb-4" name="email" label="Email">
-                        <UInput v-model="formState.email" type="email" />
-                    </UFormGroup>
-                    <UFormGroup class="mb-4" name="password" label="Password">
-                        <UInput v-model="formState.password" type="password" />
-                    </UFormGroup>
+    <WrapperAuth title="Login to you account">
+        <UForm :state="formState" :schema="SigninSchema" @submit="handleSignIn">
+            <UFormGroup class="mb-4" name="email" label="Email">
+                <UInput v-model="formState.email" type="email" />
+            </UFormGroup>
+            <UFormGroup class="mb-4" name="password" label="Password">
+                <UInput v-model="formState.password" type="password" />
+            </UFormGroup>
 
-                    <UButton :loading="isLoading" type="submit" block
-                        >Sign In</UButton
-                    >
-                </UForm>
-                <!-- ./ Form -->
-            </UCard>
-        </div>
-        <div class="right hidden lg:block"></div>
-    </div>
+            <UButton :loading="isLoading" type="submit" block>Sign In</UButton>
+        </UForm>
+    </WrapperAuth>
 </template>
 
 <script setup lang="ts"></script>
